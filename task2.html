@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Submission</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    function collectData(step) {
+      switch (step) {
+        case 1:
+          var name = prompt("Step 1: Enter your name");
+          if (!name || name.trim() === "") {
+            alert("Please enter a valid name.");
+            return collectData(1);
+          }
+          localStorage.setItem("name", name);
+          collectData(2);
+          break;
+
+        case 2:
+          var email = prompt("Step 2: Enter your email address");
+          var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email || !email.match(emailRegex)) {
+            alert("Please enter a valid email address.");
+            return collectData(2);
+          }
+          localStorage.setItem("email", email);
+          collectData(3);
+          break;
+
+        case 3:
+          var genderOptions = ["Male", "Female", "Other"];
+          var gender = prompt("Step 3: Select your gender (" + genderOptions.join(", ") + ")");
+          if (!gender || !genderOptions.includes(gender)) {
+            alert("Please select a valid gender.");
+            return collectData(3);
+          }
+          localStorage.setItem("gender", gender);
+          collectData(4);
+          break;
+
+        case 4:
+          var age = prompt("Step 4: Enter your age");
+          if (!age || isNaN(age) || age <= 0) {
+            alert("Please enter a valid age.");
+            return collectData(4);
+          }
+          localStorage.setItem("age", age);
+          displayCollectedData();
+          break;
+      }
+    }
+
+    function displayCollectedData() {
+      var collectedData = {
+        name: localStorage.getItem("name"),
+        email: localStorage.getItem("email"),
+        gender: localStorage.getItem("gender"),
+        age: localStorage.getItem("age")
+      };
+      var displayMessage = "Collected Data:\n\n";
+      for (var key in collectedData) {
+        displayMessage += collectedData[key] + "\n";
+      }
+
+      alert(displayMessage);
+    }
+    collectData(1);
+  </script>
+</body>
+</html>
